@@ -21,5 +21,8 @@ namespace SharpMKLStd {
 
     public static float dot(float[] x, float[] y) => NativeBlas1.sdot(x.Length, x, 1, y, 1);
     public static double dot(double[] x, double[] y) => NativeBlas1.ddot(x.Length, x, 1, y, 1);
+
+    public static float sdot(float sb, float[] sx, float[] sy) => NativeBlas1.sdsdot(sx.Length, sb, sx, 1, sy, 1);
+    public static double sdot(float[] sx, float[] sy) => NativeBlas1.dsdot(sx.Length, sx, 1, sy, 1);
   }
 }

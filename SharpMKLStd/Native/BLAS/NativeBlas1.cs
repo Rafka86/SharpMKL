@@ -23,5 +23,10 @@ namespace SharpMKLStd.Native {
     public static extern float sdot(int n, float[] x, int incX, float[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ddot")]
     public static extern double ddot(int n, double[] x, int incX, double[] y, int incY);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sdsdot")]
+    public static extern float sdsdot(int n, float sb, float[] sx, int incX, float[] sy, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsdot")]
+    public static extern double dsdot(int n, float[] sx, int incX, float[] sy, int incY);
   }
 }
