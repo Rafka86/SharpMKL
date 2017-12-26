@@ -9,8 +9,8 @@ namespace SharpMKLStdTest {
       var xf = new[] {1.0f, 1.0f, 1.0f};
       var xd = new[] {1.0, 1.0, 1.0};
 
-      Assert.AreEqual(3.0f, Blas1.asum(xf));
-      Assert.AreEqual(3.0, Blas1.asum(xd));
+      Assert.AreEqual(3.0f, Blas1.asum(3, xf, 1));
+      Assert.AreEqual(3.0, Blas1.asum(3, xd, 1));
     }
 
     [TestMethod]
@@ -20,10 +20,10 @@ namespace SharpMKLStdTest {
       var xd = new[] {1.0, 1.0, 1.0};
       var yd = new[] {1.0, 1.0, 1.0};
       
-      Blas1.axpy(2.0f, xf, yf);
+      Blas1.axpy(3, 2.0f, xf, 1, yf, 1);
       foreach (var t in yf)
         Assert.AreEqual(3.0f, t);
-      Blas1.axpy(2.0, xd, yd);
+      Blas1.axpy(3, 2.0, xd, 1, yd, 1);
       foreach (var t in yd)
         Assert.AreEqual(3.0, t);
     }
@@ -35,16 +35,12 @@ namespace SharpMKLStdTest {
       var xd = new[] {1.0, -1.0, 0.0};
       var yd = new double[xd.Length];
 
-      Blas1.copy(xf, yf);
-      Blas1.copy(xf, out var oyf);
-      Blas1.copy(xd, yd);
-      Blas1.copy(xd, out var oyd);
+      Blas1.copy(3, xf, 1, yf, 1);
+      Blas1.copy(3, xd, 1, yd, 1);
 
       for (var i = 0; i < yf.Length; i++) {
         Assert.AreEqual(xf[i], yf[i]);
-        Assert.AreEqual(xf[i], oyf[i]);
         Assert.AreEqual(xd[i], yd[i]);
-        Assert.AreEqual(xd[i], oyd[i]);
       }
     }
 
@@ -55,8 +51,8 @@ namespace SharpMKLStdTest {
       var xd = new[] {1.0, 1.0, 1.0};
       var yd = new[] {1.0, 1.0, 1.0};
       
-      Assert.AreEqual(3.0f, Blas1.dot(xf, yf));
-      Assert.AreEqual(3.0, Blas1.dot(xd, yd));
+      Assert.AreEqual(3.0f, Blas1.dot(3, xf, 1, yf, 1));
+      Assert.AreEqual(3.0, Blas1.dot(3, xd, 1, yd, 1));
     }
   }
 }

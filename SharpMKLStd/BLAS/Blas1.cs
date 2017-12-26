@@ -1,28 +1,37 @@
-﻿using SharpMKLStd.Native;
+﻿using System.Runtime.InteropServices;
 
 namespace SharpMKLStd {
   public static class Blas1 {
-    public static float asum(float[] x) => NativeBlas1.sasum(x.Length, x, 1);
-    public static double asum(double[] x) => NativeBlas1.dasum(x.Length, x, 1);
+    private const string LibPath = "mkl_rt.dll";
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sasum")]
+    public static extern float asum(int n, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dasum")]
+    public static extern double asum(int n, double[] x, int incX);
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_saxpy")]
+    public static extern void axpy(int n, float a, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_daxpy")]
+    public static extern void axpy(int n, double a, double[] x, int incX, double[] y, int incY);
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_scopy")]
+    public static extern void copy(int n, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dcopy")]
+    public static extern void copy(int n, double[] x, int incX, double[] y, int incY);
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sdot")]
+    public static extern float dot(int n, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ddot")]
+    public static extern double dot(int n, double[] x, int incX, double[] y, int incY);
 
-    public static void axpy(float a, float[] x, float[] y) => NativeBlas1.saxpy(x.Length, a, x, 1, y, 1);
-    public static void axpy(double a, double[] x, double[] y) => NativeBlas1.daxpy(x.Length, a, x, 1, y, 1);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sdsdot")]
+    public static extern float sdot(int n, float sb, float[] sx, int incX, float[] sy, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsdot")]
+    public static extern double sdot(int n, float[] sx, int incX, float[] sy, int incY);
 
-    public static void copy(float[] x, float[] y) => NativeBlas1.scopy(x.Length, x, 1, y, 1);
-    public static void copy(float[] x, out float[] y) {
-      y = new float[x.Length];
-      NativeBlas1.scopy(x.Length, x, 1, y, 1);
-    }
-    public static void copy(double[] x, double[] y) => NativeBlas1.dcopy(x.Length, x, 1, y, 1);
-    public static void copy(double[] x, out double[] y) {
-      y = new double[x.Length];
-      NativeBlas1.dcopy(x.Length, x, 1, y, 1);
-    }
-
-    public static float dot(float[] x, float[] y) => NativeBlas1.sdot(x.Length, x, 1, y, 1);
-    public static double dot(double[] x, double[] y) => NativeBlas1.ddot(x.Length, x, 1, y, 1);
-
-    public static float sdot(float sb, float[] sx, float[] sy) => NativeBlas1.sdsdot(sx.Length, sb, sx, 1, sy, 1);
-    public static double sdot(float[] sx, float[] sy) => NativeBlas1.dsdot(sx.Length, sx, 1, sy, 1);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_snrm2")]
+    public static extern float nrm2(int n, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dnrm2")]
+    public static extern double nrm2(int n, double[] x, int incX);
   }
 }

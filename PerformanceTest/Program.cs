@@ -45,7 +45,7 @@ namespace PerformanceTest {
         sw.Reset();
         for (var i = 0; i < Loop; i++) {
           sw.Start();
-          res = Blas1.dot(xv, yv);
+          res = Blas1.dot(size, xv, 1, yv, 1);
           sw.Stop();
         }
         WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) Loop}");
