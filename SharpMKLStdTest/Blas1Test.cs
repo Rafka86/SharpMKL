@@ -27,5 +27,25 @@ namespace SharpMKLStdTest {
       foreach (var t in yd)
         Assert.AreEqual(3.0, t);
     }
+
+    [TestMethod]
+    public void CopyTest() {
+      var xf = new[] {1.0f, -1.0f, 0.0f};
+      var yf = new float[xf.Length];
+      var xd = new[] {1.0, -1.0, 0.0};
+      var yd = new double[xd.Length];
+
+      Blas1.copy(xf, yf);
+      Blas1.copy(xf, out var oyf);
+      Blas1.copy(xd, yd);
+      Blas1.copy(xd, out var oyd);
+
+      for (var i = 0; i < yf.Length; i++) {
+        Assert.AreEqual(xf[i], yf[i]);
+        Assert.AreEqual(xf[i], oyf[i]);
+        Assert.AreEqual(xd[i], yd[i]);
+        Assert.AreEqual(xd[i], oyd[i]);
+      }
+    }
   }
 }
