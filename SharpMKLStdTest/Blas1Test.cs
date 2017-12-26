@@ -47,5 +47,16 @@ namespace SharpMKLStdTest {
         Assert.AreEqual(xd[i], oyd[i]);
       }
     }
+
+    [TestMethod]
+    public void DotTest() {
+      var xf = new[] {1.0f, 1.0f, 1.0f};
+      var yf = new[] {1.0f, 1.0f, 1.0f};
+      var xd = new[] {1.0, 1.0, 1.0};
+      var yd = new[] {1.0, 1.0, 1.0};
+      
+      Assert.AreEqual(3.0f, Blas1.dot(xf, yf));
+      Assert.AreEqual(3.0, Blas1.dot(xd, yd));
+    }
   }
 }

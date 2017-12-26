@@ -18,5 +18,10 @@ namespace SharpMKLStd.Native {
     public static extern void scopy(int n, float[] x, int incX, float[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dcopy")]
     public static extern void dcopy(int n, double[] x, int incX, double[] y, int incY);
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sdot")]
+    public static extern float sdot(int n, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ddot")]
+    public static extern double ddot(int n, double[] x, int incX, double[] y, int incY);
   }
 }
