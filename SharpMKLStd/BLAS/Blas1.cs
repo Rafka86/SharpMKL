@@ -38,5 +38,10 @@ namespace SharpMKLStd {
     public static extern void rot(int n, float[] x, int incX, float[] y, int incY, float c, float s);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_drot")]
     public static extern void rot(int n, double[] x, int incX, double[] y, int incY, double c, double s);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_srotg")]
+    public static extern void rotg(ref float a, ref float b, out float c, out float s);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_drotg")]
+    public static extern void rotg(ref double a, ref double b, out double c, out double s);
   }
 }
