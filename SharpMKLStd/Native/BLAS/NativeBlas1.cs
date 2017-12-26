@@ -8,5 +8,10 @@ namespace SharpMKLStd.Native {
     public static extern float sasum(int n, float[] x, int incX);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dasum")]
     public static extern double dasum(int n, double[] x, int incX);
+  
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_saxpy")]
+    public static extern void saxpy(int n, float a, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_daxpy")]
+    public static extern void daxpy(int n, double a, double[] x, int incX, double[] y, int incY);
   }
 }
