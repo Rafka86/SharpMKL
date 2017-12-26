@@ -16,8 +16,16 @@ namespace SharpMKLStd {
   
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_scopy")]
     public static extern void copy(int n, float[] x, int incX, float[] y, int incY);
+    public static void copy(int n, float[] x, int incX, out float[] y, int incY) {
+      y = new float[n];
+      copy(n, x, incX, y, incY);
+    }
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dcopy")]
     public static extern void copy(int n, double[] x, int incX, double[] y, int incY);
+    public static void copy(int n, double[] x, int incX, out double[] y, int incY) {
+      y = new double[n];
+      copy(n, x, incX, y, incY);
+    }
   
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sdot")]
     public static extern float dot(int n, float[] x, int incX, float[] y, int incY);
@@ -48,5 +56,18 @@ namespace SharpMKLStd {
     public static extern void rotm(int n, float[] x, int incX, float[] y, int incY, float[] param);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_drotm")]
     public static extern void rotm(int n, double[] x, int incX, double[] y, int incY, double[] param);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_srotmg")]
+    public static extern void rotmg(ref float d1, ref float d2, ref float x1, float y1, float[] param);
+    public static void rotmg(ref float d1, ref float d2, ref float x1, float y1, out float[] param) {
+      param = new float[5];
+      rotmg(ref d1, ref d2, ref x1, y1, param);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_drotmg")]
+    public static extern void rotmg(ref double d1, ref double d2, ref double x1, double y1, double[] param);
+    public static void rotmg(ref double d1, ref double d2, ref double x1, double y1, out double[] param) {
+      param = new double[5];
+      rotmg(ref d1, ref d2, ref x1, y1, param);
+    }
   }
 }
