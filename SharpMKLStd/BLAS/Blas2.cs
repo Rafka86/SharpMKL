@@ -51,5 +51,12 @@ namespace SharpMKLStd {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dspr")]
     public static extern void spr(BlasLayout Layout, BlasUpLo UpLo, int n,
                                   double alpha, double[] x, int incX, double[] ap);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sspr2")]
+    public static extern void spr2(BlasLayout Layout, BlasUpLo UpLo,
+                                  int n, float alpha, float[] x, int incX, float[] y, int incY, float[] ap);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dspr2")]
+    public static extern void spr2(BlasLayout Layout, BlasUpLo UpLo, int n,
+                                  double alpha, double[] x, int incX, double[] y, int incY, double[] ap);
   }
 }
