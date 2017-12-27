@@ -69,5 +69,10 @@ namespace SharpMKLStd {
       param = new double[5];
       rotmg(ref d1, ref d2, ref x1, y1, param);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sscal")]
+    public static extern void scal(int n, float a, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dscal")]
+    public static extern void scal(int n, double a, double[] x, int incX);
   }
 }

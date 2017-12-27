@@ -54,5 +54,23 @@ namespace SharpMKLStdTest {
       Assert.AreEqual(3.0f, Blas1.dot(3, xf, 1, yf, 1));
       Assert.AreEqual(3.0, Blas1.dot(3, xd, 1, yd, 1));
     }
+
+    [TestMethod]
+    public void ScalTest() {
+      const float af = 2.0f;
+      const double ad = -1.0;
+      var xf = new[] {1.0f, 1.0f, 1.0f};
+      Blas1.copy(xf.Length, xf, 1, out var mxf, 1);
+      var xd = new[] {1.0, 1.0, 1.0};
+      Blas1.copy(xd.Length, xd, 1, out var mxd, 1);
+      
+      Blas1.scal(mxf.Length, af, mxf, 1);
+      Blas1.scal(mxd.Length, ad, mxd, 1);
+
+      for (var i = 0; i < mxf.Length; i++)
+        Assert.AreEqual(af * xf[i], mxf[i]);
+      for (var i = 0; i < mxd.Length; i++)
+        Assert.AreEqual(ad * xd[i], mxd[i]);
+    }
   }
 }
