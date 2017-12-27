@@ -65,8 +65,8 @@ namespace PerformanceTest {
     
     private static void Main() {
       CompareTimeDot(10);
-      //CompareTime(100);
-      //CompareTime(100000);
+      CompareTimeDot(100);
+      CompareTimeDot(100000);
 
       CompareTimeLU();
       
