@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMKLStd", "SharpMKLStd/SharpMKLStd.csproj", "{12FE5EF7-BC3E-4605-8D62-66E75FEC0950}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMKL", "SharpMKL/SharpMKL.csproj", "{12FE5EF7-BC3E-4605-8D62-66E75FEC0950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMKLStdTest", "SharpMKLStdTest\SharpMKLStdTest.csproj", "{4975C094-B4BA-4D31-84F2-B188E91B138E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMKLTest", "SharpMKLTest\SharpMKLTest.csproj", "{4975C094-B4BA-4D31-84F2-B188E91B138E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTest", "PerformanceTest\PerformanceTest.csproj", "{F5BCBF7A-C77D-40A9-AE46-1E60E449A142}"
 EndProject

@@ -9,6 +9,6 @@
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpMKLStd\SharpMKLStd.csproj" />
+    <ProjectReference Include="..\SharpMKL\SharpMKL.csproj" />
   </ItemGroup>
 </Project>
