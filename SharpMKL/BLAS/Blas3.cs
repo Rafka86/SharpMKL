@@ -46,5 +46,14 @@ namespace SharpMKLStd {
     public static extern void trmm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo,
                                    BlasTranspose Trans, BlasDiag Diag, int m, int n,
                                    double alpha, double[] a, int lda, double[] b, int ldb);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_strsm")]
+    public static extern void trsm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo,
+                                   BlasTranspose Trans, BlasDiag Diag, int m, int n,
+                                   float alpha, float[] a, int lda, float[] b, int ldb);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dtrsm")]
+    public static extern void trsm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo,
+                                   BlasTranspose Trans, BlasDiag Diag, int m, int n,
+                                   double alpha, double[] a, int lda, double[] b, int ldb);
   }
 }
