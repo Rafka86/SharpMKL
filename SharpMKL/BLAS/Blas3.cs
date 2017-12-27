@@ -6,9 +6,20 @@ namespace SharpMKLStd {
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sgemm")]
     public static extern void gemm(BlasLayout Layout, BlasTranspose TransA, BlasTranspose TransB, int m, int n, int k,
-                                   float alpha, float[] a, int lda, float[] b, int ldb, float beta, float[] c, int ldc);
+                                   float alpha, float[] a, int lda, float[] b, int ldb,
+                                   float beta, float[] c, int ldc);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dgemm")]
     public static extern void gemm(BlasLayout Layout, BlasTranspose TransA, BlasTranspose TransB, int m, int n, int k,
-                                   double alpha, double[] a, int lda, double[] b, int ldb, double beta, double[] c, int ldc);
+                                   double alpha, double[] a, int lda, double[] b, int ldb,
+                                   double beta, double[] c, int ldc);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ssymm")]
+    public static extern void symm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo, int m, int n,
+                                   float alpha, float[] a, int lda, float[] b, int ldb,
+                                   float beta, float[] c, int ldc);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsymm")]
+    public static extern void symm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo, int m, int n,
+                                   double alpha, double[] a, int lda, double[] b, int ldb,
+                                   double beta, double[] c, int ldc);
   }
 }
