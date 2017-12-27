@@ -46,17 +46,26 @@ namespace SharpMKLStd {
                                    double[] x, int incX, double beta, double[] y, int incY);
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sspr")]
-    public static extern void spr(BlasLayout Layout, BlasUpLo UpLo,
-                                  int n, float alpha, float[] x, int incX, float[] ap);
+    public static extern void spr(BlasLayout Layout, BlasUpLo UpLo, int n,
+                                  float alpha, float[] x, int incX, float[] ap);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dspr")]
     public static extern void spr(BlasLayout Layout, BlasUpLo UpLo, int n,
                                   double alpha, double[] x, int incX, double[] ap);
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sspr2")]
-    public static extern void spr2(BlasLayout Layout, BlasUpLo UpLo,
-                                  int n, float alpha, float[] x, int incX, float[] y, int incY, float[] ap);
+    public static extern void spr2(BlasLayout Layout, BlasUpLo UpLo, int n,
+                                   float alpha, float[] x, int incX, float[] y, int incY, float[] ap);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dspr2")]
     public static extern void spr2(BlasLayout Layout, BlasUpLo UpLo, int n,
-                                  double alpha, double[] x, int incX, double[] y, int incY, double[] ap);
+                                   double alpha, double[] x, int incX, double[] y, int incY, double[] ap);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ssymv")]
+    public static extern void symv(BlasLayout Layout, BlasUpLo UpLo, int n,
+                                   float alpha, float[] a, int lda, float[] x, int incX,
+                                   float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsymv")]
+    public static extern void symv(BlasLayout Layout, BlasUpLo UpLo, int n,
+                                   double alpha, double[] a, int lda, double[] x, int incX,
+                                   double[] y, int incY);
   }
 }
