@@ -88,5 +88,12 @@ namespace SharpMKLStd {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dtbmv")]
     public static extern void tbmv(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, BlasDiag Diag, int n, int k,
                                    double[] a, int lda, double[] x, int incX);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_stbsv")]
+    public static extern void tbsv(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, BlasDiag Diag, int n, int k,
+                                   float[] a, int lda, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dtbsv")]
+    public static extern void tbsv(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, BlasDiag Diag, int n, int k,
+                                   double[] a, int lda, double[] x, int incX);
   }
 }
