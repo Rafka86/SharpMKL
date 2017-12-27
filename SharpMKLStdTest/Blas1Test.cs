@@ -81,5 +81,14 @@ namespace SharpMKLStdTest {
       Assert.AreEqual(3, Blas1.iamax(xf.Length, xf, 1));
       Assert.AreEqual(3, Blas1.iamax(xd.Length, xd, 1));
     }
+
+    [TestMethod]
+    public void IaminTest() {
+      var xf = new[] {1.0f, -2.0f, 5.0f, 12.0f};
+      var xd = new[] {1.0, -2.0, 5.0, 12.0, -3.0};
+
+      Assert.AreEqual(0, Blas1.iamin(xf.Length, xf, 1));
+      Assert.AreEqual(0, Blas1.iamin(xd.Length, xd, 1));
+    }
   }
 }

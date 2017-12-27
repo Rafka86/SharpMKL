@@ -85,5 +85,10 @@ namespace SharpMKLStd {
     public static extern int iamax(int n, float[] x, int incX);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_idamax")]
     public static extern int iamax(int n, double[] x, int incX);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_isamin")]
+    public static extern int iamin(int n, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_idamin")]
+    public static extern int iamin(int n, double[] x, int incX);
   }
 }
