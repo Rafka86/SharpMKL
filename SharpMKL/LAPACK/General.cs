@@ -2,7 +2,7 @@
 using static System.Math;
 
 namespace SharpMKLStd {
-  public static class Lapack {
+  public static partial class Lapack {
     private const string LibPath = "mkl_rt.dll";
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgetrf")]
