@@ -74,5 +74,10 @@ namespace SharpMKLStd {
     public static extern void scal(int n, float a, float[] x, int incX);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dscal")]
     public static extern void scal(int n, double a, double[] x, int incX);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sswap")]
+    public static extern void swap(int n, float[] x, int incX, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dswap")]
+    public static extern void swap(int n, double[] x, int incX, double[] y, int incY);
   }
 }
