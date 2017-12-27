@@ -14,4 +14,14 @@
     Upper = 121,
     Lower = 122
   }
+
+  public enum BlasDiag {
+    Unit = 132,
+    NonUnit = 131
+  }
+
+  public enum BlasSide {
+    Left = 141,
+    Right = 142
+  }
 }
