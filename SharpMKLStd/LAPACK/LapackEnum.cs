@@ -14,4 +14,11 @@
     One = 49,
     Infinity = 73
   }
+
+  public enum LapackEquil {
+    NoEquil = 78,
+    Row = 82,
+    Column = 67,
+    Both = 66
+  }
 }
