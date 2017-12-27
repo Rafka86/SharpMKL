@@ -89,5 +89,28 @@ namespace SharpMKLStd {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgecon")]
     public static extern int gecon(LapackLayout Layout, LapackNorm Norm,
                                    int n, double[] a, int lda, double aNorm, ref double rCond);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgerfs")]
+    public static extern int gerfs(LapackLayout Layout, LapackTranspose Transpose,
+                                   int n, int nrhs, float[] a, int lda, float[] af, int ldaf, int[] ipiv,
+                                   float[] b, int ldb, float[] x, int ldx, float[] fErr, float[] bErr);
+    public static int gerfs(LapackLayout Layout, LapackTranspose Transpose,
+                            int n, int nrhs, float[] a, int lda, float[] af, int ldaf, int[] ipiv,
+                            float[] b, int ldb, float[] x, int ldx, out float[] fErr, out float[] bErr) {
+      fErr = new float[nrhs > 1 ? nrhs : 1];
+      bErr = new float[nrhs > 1 ? nrhs : 1];
+      return gerfs(Layout, Transpose, n, nrhs, a, lda, af, ldaf, ipiv, b, ldb, x, ldx, fErr, bErr);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgerfs")]
+    public static extern int gerfs(LapackLayout Layout, LapackTranspose Transpose,
+                                   int n, int nrhs, double[] a, int lda, double[] af, int ldaf, int[] ipiv,
+                                   double[] b, int ldb, double[] x, int ldx, double[] fErr, double[] bErr);
+    public static int gerfs(LapackLayout Layout, LapackTranspose Transpose,
+                            int n, int nrhs, double[] a, int lda, double[] af, int ldaf, int[] ipiv,
+                            double[] b, int ldb, double[] x, int ldx, out double[] fErr, out double[] bErr) {
+      fErr = new double[nrhs > 1 ? nrhs : 1];
+      bErr = new double[nrhs > 1 ? nrhs : 1];
+      return gerfs(Layout, Transpose, n, nrhs, a, lda, af, ldaf, ipiv, b, ldb, x, ldx, fErr, bErr);
+    }
   }
 }
