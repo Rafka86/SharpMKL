@@ -135,7 +135,6 @@ namespace SharpMKLStd {
                     r, c, b, ldb, x, ldx, out rCond, bErr,
                     nErrBnds, errBndsNorm, errBndsConp, nParams, Params);
     }
-
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgerfsx")]
     public static extern int gerfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
                                     int n, int nrhs, double[] a, int lda, double[] af, int ldaf, int[] ipiv,
@@ -144,11 +143,11 @@ namespace SharpMKLStd {
                                     int nErrBnds, double[] errBndsNorm, double[] errBndsConp,
                                     int nParams, double[] Params);
     public static int gerfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
-                                    int n, int nrhs, double[] a, int lda, double[] af, int ldaf, int[] ipiv,
-                                    double[] r, double[] c, double[] b, int ldb, double[] x, int ldx,
-                                    out double rCond, out double[] bErr,
-                                    int nErrBnds, out double[] errBndsNorm, out double[] errBndsConp,
-                                    int nParams, double[] Params) {
+                             int n, int nrhs, double[] a, int lda, double[] af, int ldaf, int[] ipiv,
+                             double[] r, double[] c, double[] b, int ldb, double[] x, int ldx,
+                             out double rCond, out double[] bErr,
+                             int nErrBnds, out double[] errBndsNorm, out double[] errBndsConp,
+                             int nParams, double[] Params) {
       bErr = new double[nrhs > 1 ? nrhs : 1];
       errBndsNorm = new double[nrhs * nErrBnds];
       errBndsConp = new double[nrhs * nErrBnds];
@@ -157,5 +156,10 @@ namespace SharpMKLStd {
                     r, c, b, ldb, x, ldx, out rCond, bErr,
                     nErrBnds, errBndsNorm, errBndsConp, nParams, Params);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgetri")]
+    public static extern int getri(LapackLayout Layout, int n, float[] a, int lda);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgetri")]
+    public static extern int getri(LapackLayout Layout, int n, double[] a, int lda);
   }
 }
