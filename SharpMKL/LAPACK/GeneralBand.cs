@@ -94,5 +94,52 @@ namespace SharpMKLStd {
       bErr = new double[nrhs > 1 ? nrhs : 1];
       return gbrfs(Layout, Trans, n, kl, ku, nrhs, ab, ldab, afb, ldafb, ipiv, b, ldb, x, ldx, fErr, bErr);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgbrfsx")]
+    public static extern int gbrfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
+                                    int n, int kl, int ku, int nrhs, float[] ab, int ldab,
+                                    float[] afb, int ldafb, int[] ipiv,
+                                    float[] r, float[] c, float[] b, int ldb, float[] x, int ldx,
+                                    out float rCond, float[] bErr,
+                                    int nErrBnds, float[] errBndsNorm, float[] errBndsConp,
+                                    int nParams, float[] Params);
+    public static int gbrfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
+                             int n, int kl, int ku, int nrhs, float[] ab, int ldab,
+                             float[] afb, int ldafb, int[] ipiv,
+                             float[] r, float[] c, float[] b, int ldb, float[] x, int ldx,
+                             out float rCond, out float[] bErr,
+                             int nErrBnds, out float[] errBndsNorm, out float[] errBndsConp,
+                             int nParams, float[] Params) {
+      bErr = new float[nrhs > 1 ? nrhs : 1];
+      errBndsNorm = new float[nrhs * nErrBnds];
+      errBndsConp = new float[nrhs * nErrBnds];
+      return gbrfsx(Layout, Transpose, Equed,
+                    n, kl, ku, nrhs, ab, ldab, afb, ldafb, ipiv,
+                    r, c, b, ldb, x, ldx, out rCond, bErr,
+                    nErrBnds, errBndsNorm, errBndsConp, nParams, Params);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgbrfsx")]
+    public static extern int gbrfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
+                                    int n, int kl, int ku, int nrhs, double[] ab, int ldab,
+                                    double[] afb, int ldafb, int[] ipiv,
+                                    double[] r, double[] c, double[] b, int ldb, double[] x, int ldx,
+                                    out double rCond, double[] bErr,
+                                    int nErrBnds, double[] errBndsNorm, double[] errBndsConp,
+                                    int nParams, double[] Params);
+    public static int gbrfsx(LapackLayout Layout, LapackTranspose Transpose, LapackEquil Equed,
+                             int n, int kl, int ku, int nrhs, double[] ab, int ldab,
+                             double[] afb, int ldafb, int[] ipiv,
+                             double[] r, double[] c, double[] b, int ldb, double[] x, int ldx,
+                             out double rCond, out double[] bErr,
+                             int nErrBnds, out double[] errBndsNorm, out double[] errBndsConp,
+                             int nParams, double[] Params) {
+      bErr = new double[nrhs > 1 ? nrhs : 1];
+      errBndsNorm = new double[nrhs * nErrBnds];
+      errBndsConp = new double[nrhs * nErrBnds];
+      return gbrfsx(Layout, Transpose, Equed,
+                    n, kl, ku, nrhs, ab, ldab, afb, ldafb, ipiv,
+                    r, c, b, ldb, x, ldx, out rCond, bErr,
+                    nErrBnds, errBndsNorm, errBndsConp, nParams, Params);
+    }
   }
 }
