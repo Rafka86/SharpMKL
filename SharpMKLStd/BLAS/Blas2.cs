@@ -12,5 +12,14 @@ namespace SharpMKLStd {
     public static extern void gbmv(BlasLayout Layout, BlasTranspose Trans,
                                    int m, int n, int kl, int ku, double alpha, double[] a, int lda,
                                    double[] x, int incX, double beta, double[] y, int incY);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_sgemv")]
+    public static extern void gemv(BlasLayout Layout, BlasTranspose Trans,
+                                   int m, int n, float alpha, float[] a, int lda,
+                                   float[] x, int incX, float beta, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dgemv")]
+    public static extern void gemv(BlasLayout Layout, BlasTranspose Trans,
+                                   int m, int n, double alpha, double[] a, int lda,
+                                   double[] x, int incX, double beta, double[] y, int incY);
   }
 }
