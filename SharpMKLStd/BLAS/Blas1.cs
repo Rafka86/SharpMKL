@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SharpMKLStd {
   public static class Blas1 {
@@ -79,5 +80,10 @@ namespace SharpMKLStd {
     public static extern void swap(int n, float[] x, int incX, float[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dswap")]
     public static extern void swap(int n, double[] x, int incX, double[] y, int incY);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_isamax")]
+    public static extern int iamax(int n, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_idamax")]
+    public static extern int iamax(int n, double[] x, int incX);
   }
 }
