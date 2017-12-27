@@ -30,5 +30,12 @@ namespace SharpMKLStd {
     public static extern void ger(BlasLayout Layout, int m, int n,
                                   double alpha, double[] x, int incX, double[] y, int incY,
                                   double[] a, int lda);
+                                 
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ssbmv")]
+    public static extern void sbmv(BlasLayout Layout, BlasUpLo UpLo, int n, int k, float alpha, float[] a, int lda,
+                                   float[] x, int incX, float beta, float[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsbmv")]
+    public static extern void sbmv(BlasLayout Layout, BlasUpLo UpLo, int n, int k, double alpha, double[] a, int lda,
+                                   double[] x, int incX, double beta, double[] y, int incY);
   }
 }

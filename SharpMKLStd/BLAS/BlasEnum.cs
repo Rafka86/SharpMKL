@@ -9,4 +9,9 @@
     Trans = 112,
     ConjTrans = 113
   }
+
+  public enum BlasUpLo {
+    Upper = 121,
+    Lower = 122
+  }
 }
