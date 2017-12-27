@@ -1,4 +1,4 @@
-# SharpMKLStd
+# SharpMKL
 This is a wrapping library of Intel® Math Kernel Library for .Net Standard.
 
 これは.NetStandard2.0をサポートするクロスプラットフォームなIntel® Math Kernel Libraryのラッパーライブラリです．
