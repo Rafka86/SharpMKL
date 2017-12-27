@@ -30,12 +30,21 @@ namespace SharpMKLStd {
                                    double alpha, double[] a, int lda, double beta, double[] c, int ldc);
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ssyrk2")]
-    public static extern void syrk2(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo, int n, int k,
+    public static extern void syrk2(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, int n, int k,
                                     float alpha, float[] a, int lda, float[] b, int ldb,
                                     float beta, float[] c, int ldc);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsyrk2")]
-    public static extern void syrk2(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo, int n, int k,
+    public static extern void syrk2(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, int n, int k,
                                     double alpha, double[] a, int lda, double[] b, int ldb,
                                     double beta, double[] c, int ldc);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_strmm")]
+    public static extern void trmm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo,
+                                   BlasTranspose Trans, BlasDiag Diag, int m, int n,
+                                   float alpha, float[] a, int lda, float[] b, int ldb);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dtrmm")]
+    public static extern void trmm(BlasLayout Layout, BlasSide Side, BlasUpLo UpLo,
+                                   BlasTranspose Trans, BlasDiag Diag, int m, int n,
+                                   double alpha, double[] a, int lda, double[] b, int ldb);
   }
 }
