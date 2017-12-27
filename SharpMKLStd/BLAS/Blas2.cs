@@ -77,9 +77,16 @@ namespace SharpMKLStd {
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ssyr2")]
     public static extern void syr2(BlasLayout Layout, BlasUpLo UpLo, int n,
-                                  float alpha, float[] x, int incX, float[] y, int incY, float[] a, int lda);
+                                   float alpha, float[] x, int incX, float[] y, int incY, float[] a, int lda);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dsyr2")]
     public static extern void syr2(BlasLayout Layout, BlasUpLo UpLo, int n,
-                                  double alpha, double[] x, int incX, double[] y, int incY, double[] a, int lda);
+                                   double alpha, double[] x, int incX, double[] y, int incY, double[] a, int lda);
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_stbmv")]
+    public static extern void tbmv(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, BlasDiag Diag, int n, int k,
+                                   float[] a, int lda, float[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dtbmv")]
+    public static extern void tbmv(BlasLayout Layout, BlasUpLo UpLo, BlasTranspose Trans, BlasDiag Diag, int n, int k,
+                                   double[] a, int lda, double[] x, int incX);
   }
 }
