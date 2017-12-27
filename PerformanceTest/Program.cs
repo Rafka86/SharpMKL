@@ -106,29 +106,30 @@ namespace PerformanceTest {
       void CompareTimeLU() {
         const int M = 49;
         const int N = M * M;
-        const double Heat = 1.0;
+        const double h = 1.0 / (M + 1);
+        const double Heat = 4.0;
         var aBase = new double[N * N];
         var bBase = new double[N];
         var ipiv = new int[N];
         for (var i = 1; i <= M; i++) {
           for (var j = 1; j <= M; j++) {
             var k = (j - 1) * M + i - 1;
-            aBase[k * N + k] = 4.0 / (Heat * Heat);
+            aBase[k * N + k] = 4.0 / (h * h);
             if (i > 1) {
               var kl = k - 1;
-              aBase[kl * N + k] = -1.0 / (Heat * Heat);
+              aBase[kl * N + k] = -1.0 / (h * h);
             }
             if (i < M) {
               var kr = k + 1;
-              aBase[kr * N + k] = -1.0 / (Heat * Heat);
+              aBase[kr * N + k] = -1.0 / (h * h);
             }
             if (j > 1) {
               var kd = k - M;
-              aBase[kd * N + k] = -1.0 / (Heat * Heat);
+              aBase[kd * N + k] = -1.0 / (h * h);
             }
             if (j < M) {
               var ku = k + M;
-              aBase[ku * N + k] = -1.0 / (Heat * Heat);
+              aBase[ku * N + k] = -1.0 / (h * h);
             }
             bBase[k] = Heat;
           }

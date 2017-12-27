@@ -9,4 +9,9 @@
     Trans = 84,
     ConjTrans = 67
   }
+
+  public enum LapackNorm {
+    One = 49,
+    Infinity = 73
+  }
 }

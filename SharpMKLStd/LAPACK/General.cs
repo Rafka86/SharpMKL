@@ -82,5 +82,12 @@ namespace SharpMKLStd {
       c = new double[n];
       return geequb(Layout, m, n, a, lda, r, c, out rowCnd, out colCnd, out aMax);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgecon")]
+    public static extern int gecon(LapackLayout Layout, LapackNorm Norm,
+                                   int n, float[] a, int lda, float aNorm, ref float rCond);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgecon")]
+    public static extern int gecon(LapackLayout Layout, LapackNorm Norm,
+                                   int n, double[] a, int lda, double aNorm, ref double rCond);
   }
 }
