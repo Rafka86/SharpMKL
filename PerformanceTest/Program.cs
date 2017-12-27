@@ -15,9 +15,14 @@ namespace PerformanceTest {
 
     private static void Main() {
       CompareTime(10);
-      CompareTime(100);
-      CompareTime(100000);
+      //CompareTime(100);
+      //CompareTime(100000);
 
+      var a = new[] {1.0, 1.0, 0.0, 3.0, 2.0, 1.0, -1.0, 1.0, 3.0, -1.0, -1.0, 2.0, -1.0, 2.0, 3.0 - 1.0};
+      Lapack.getrf(LapackLayout.RowMajor, 4, 4, a, 4, out var ipiv);
+      for (var i = 0; i < 4; i++)
+        WriteLine($"{a[i * 4 + 0]} {a[i * 4] + 1} {a[i * 4] + 2} {a[i * 4] + 3}");
+      
       void CompareTime(int size) {
         var sw = new Stopwatch();
         (var x, var y) = GenerateVector();
