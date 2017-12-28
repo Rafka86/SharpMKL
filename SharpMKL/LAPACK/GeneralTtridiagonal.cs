@@ -25,5 +25,14 @@ namespace SharpMKLStd {
     public static extern int gttrs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
                                    double[] dl, double[] d, double[] du, double[] du2, int[] ipiv,
                                    float[] b, int ldb);
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgtcon")]
+    public static extern int gtcon(LapackNorm Norm, int n,
+                                   float[] dl, float[] d, float[] du, float[] du2, int[] ipiv,
+                                   float aNorm, out float rCond);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgtcon")]
+    public static extern int gtcon(LapackNorm Norm, int n,
+                                   double[] dl, double[] d, double[] du, double[] du2, int[] ipiv,
+                                   float aNorm, out float rCond);
   }
 }
