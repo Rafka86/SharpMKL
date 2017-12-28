@@ -30,5 +30,22 @@ namespace SharpMKLStd {
       s = new double[n];
       return poequ(Layout, n, a, lda, s, out sCond, out aMax);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spoequb")]
+    public static extern int poequb(LapackLayout Layout, int n, float[] a, int lda,
+                                    float[] s, out float sCond, out float aMax);
+    public static int poequb(LapackLayout Layout, int n, float[] a, int lda,
+                             out float[]  s, out float sCond, out float aMax) {
+      s = new float[n];
+      return poequb(Layout, n, a, lda, s, out sCond, out aMax);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpoequb")]
+    public static extern int poequb(LapackLayout Layout, int n, double[] a, int lda,
+                                    double[] s, out double sCond, out double aMax);
+    public static int poequb(LapackLayout Layout, int n, double[] a, int lda,
+                             out double[]  s, out double sCond, out double aMax) {
+      s = new double[n];
+      return poequb(Layout, n, a, lda, s, out sCond, out aMax);
+    }
   }
 }
