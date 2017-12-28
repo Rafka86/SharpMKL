@@ -47,5 +47,12 @@ namespace SharpMKLStd {
       s = new double[n];
       return poequb(Layout, n, a, lda, s, out sCond, out aMax);
     }
+
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spocon")]
+    public static extern int pocon(LapackLayout Layout, LapackUpLo UpLo, int n,
+                                   float[] a, int lda, float aNorm, out float rCond);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpoequb")]
+    public static extern int pocon(LapackLayout Layout, LapackUpLo UpLo, int n,
+                                   double[] a, int lda, double aNomr, out double rCond);
   }
 }
