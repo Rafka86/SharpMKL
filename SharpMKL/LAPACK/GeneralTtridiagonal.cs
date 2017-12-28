@@ -16,5 +16,14 @@ namespace SharpMKLStd {
       ipiv = new int[n];
       return gttrf(n, dl, d, du, du2, ipiv);
     }
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgttrs")]
+    public static extern int gttrs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                                   float[] dl, float[] d, float[] du, float[] du2, int[] ipiv,
+                                   float[] b, int ldb);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgttrs")]
+    public static extern int gttrs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                                   double[] dl, double[] d, double[] du, double[] du2, int[] ipiv,
+                                   float[] b, int ldb);
   }
 }
