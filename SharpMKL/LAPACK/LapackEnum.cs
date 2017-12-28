@@ -21,4 +21,9 @@
     Column = 67,
     Both = 66
   }
+
+  public enum LapackUpLo {
+    Upper = 85,
+    Lower = 76
+  }
 }
