@@ -124,5 +124,10 @@ namespace SharpMKLStd {
                     s, b, ldb, x, ldx, out rCond, bErr,
                     nErrBnds, errBndsNorm, errBndsConp, nParams, Params);
     }
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spotri")]
+    public static extern int potri(LapackLayout Layout, LapackUpLo UpLo, int n, float[] a, int lda);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpotri")]
+    public static extern int potri(LapackLayout Layout, LapackUpLo UpLo, int n, double[] a, int lda);
   }
 }
