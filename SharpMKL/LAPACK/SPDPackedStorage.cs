@@ -62,5 +62,9 @@ namespace SharpMKLStd {
       return pprfs(Layout, UpLo, n, nrhs, ap, afp, b, ldb, x, ldx, fErr, bErr);
     }
     
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spptri")]
+    public static extern int pptri(LapackLayout Layout, LapackUpLo UpLo, int n, float[] ap);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpptri")]
+    public static extern int pptri(LapackLayout Layout, LapackUpLo UpLo, int n, double[] ap);
   }
 }
