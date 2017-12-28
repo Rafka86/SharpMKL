@@ -5,14 +5,14 @@ namespace SharpMKLStd {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "sdttrfb")]
     public static extern void dttrfb(ref int n, float[] dl, float[] d, float[] du, ref int info);
     public static int dttrfb(int n, float[] dl, float[] d, float[] du) {
-      int info;
+      var info = 0;
       dttrfb(ref n, dl, d, du, ref info);
       return info;
     }
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "ddttrfb")]
     public static extern void dttrfb(ref int n, double[] dl, double[] d, double[] du, ref int info);
     public static int dttrfb(int n, double[] dl, double[] d, double[] du) {
-      int info;
+      var info = 0;
       dttrfb(ref n, dl, d, du, ref info);
       return info;
     }
@@ -24,7 +24,7 @@ namespace SharpMKLStd {
     public static int dttrsb(LapackTranspose Trans, int n, int nrhs,
                              float[] dl, float[] d, float[] du,
                              float[] b, int ldb) {
-      int info;
+      var info = 0;
       dttrsb(ref Trans, ref n, ref nrhs, dl, d, du, b, ref ldb, ref info);
       return info;
     }
@@ -35,7 +35,7 @@ namespace SharpMKLStd {
     public static int dttrsb(LapackTranspose Trans, int n, int nrhs,
                              double[] dl, double[] d, double[] du,
                              double[] b, int ldb) {
-      int info;
+      var info = 0;
       dttrsb(ref Trans, ref n, ref nrhs, dl, d, du, b, ref ldb, ref info);
       return info;
     }
