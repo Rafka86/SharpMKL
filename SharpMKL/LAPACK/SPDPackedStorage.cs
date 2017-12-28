@@ -32,5 +32,12 @@ namespace SharpMKLStd {
       s = new double[n];
       return ppequ(Layout, UpLo, n, ap, s, out sCond, out aMax);
     }
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sppcon")]
+    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo,
+                                   int n, float[] ap, float aNorm, out float rCond);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dppcon")]
+    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo,
+                                   int n, double[] ap, double aNorm, out double rCond);
   }
 }
