@@ -7,4 +7,7 @@
       <Link>README.md</Link>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="SharpMKL.csproj.DotSettings" />
+  </ItemGroup>
 </Project>

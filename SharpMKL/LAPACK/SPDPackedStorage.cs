@@ -1,5 +1,6 @@
 ﻿//Symmetric Positive Definite Packed Storage Matrix.
 
+using System.Data;
 using System.Runtime.InteropServices;
 
 namespace SharpMKLStd {
@@ -34,10 +35,32 @@ namespace SharpMKLStd {
     }
     
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sppcon")]
-    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo,
-                                   int n, float[] ap, float aNorm, out float rCond);
+    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo, int n, float[] ap, float aNorm, out float rCond);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dppcon")]
-    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo,
-                                   int n, double[] ap, double aNorm, out double rCond);
+    public static extern int ppcon(LapackLayout Layout, LapackUpLo UpLo, int n, double[] ap, double aNorm, out double rCond);
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spprfs")]
+    public static extern int pprfs(LapackLayout Layout, LapackUpLo UpLo, int n, int nrhs,
+                                   float[] ap, float[] afp, float[] b, int ldb, float[] x, int ldx,
+                                   float[] fErr, float[] bErr);
+    public static int pprfs(LapackLayout Layout, LapackUpLo UpLo, int n, int nrhs,
+                            float[] ap, float[] afp, float[] b, int ldb, float[] x, int ldx,
+                            out float[] fErr, out float[] bErr) {
+      fErr = new float[nrhs > 1 ? nrhs : 1];
+      bErr = new float[nrhs > 1 ? nrhs : 1];
+      return pprfs(Layout, UpLo, n, nrhs, ap, afp, b, ldb, x, ldx, fErr, bErr);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpprfs")]
+    public static extern int pprfs(LapackLayout Layout, LapackUpLo UpLo, int n, int nrhs,
+                                   double[] ap, double[] afp, double[] b, int ldb, double[] x, int ldx,
+                                   double[] fErr, double[] bErr);
+    public static int pprfs(LapackLayout Layout, LapackUpLo UpLo, int n, int nrhs,
+                            double[] ap, double[] afp, double[] b, int ldb, double[] x, int ldx,
+                            out double[] fErr, out double[] bErr) {
+      fErr = new double[nrhs > 1 ? nrhs : 1];
+      bErr = new double[nrhs > 1 ? nrhs : 1];
+      return pprfs(Layout, UpLo, n, nrhs, ap, afp, b, ldb, x, ldx, fErr, bErr);
+    }
+    
   }
 }
