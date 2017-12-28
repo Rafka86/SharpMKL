@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SharpMKLStd {
   public static partial class Lapack {
@@ -34,5 +36,32 @@ namespace SharpMKLStd {
     public static extern int gtcon(LapackNorm Norm, int n,
                                    double[] dl, double[] d, double[] du, double[] du2, int[] ipiv,
                                    float aNorm, out float rCond);
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgtrfs")]
+    public static extern int gtrfs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                                   float[] dl, float[] d, float[] du, float[] dlf, float[] df, float[] duf,
+                                   float[] du2, int[] ipiv, float[] b, int ldb, float[] x, int ldx,
+                                   float[] fErr, float[] bErr);
+    public static int gtrfs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                            float[] dl, float[] d, float[] du, float[] dlf, float[] df, float[] duf,
+                            float[] du2, int[] ipiv, float[] b, int ldb, float[] x, int ldx,
+                            out float[] fErr, out float[] bErr) {
+      fErr = new float[nrhs > 1 ? nrhs : 1];
+      bErr = new float[nrhs > 1 ? nrhs : 1];
+      return gtrfs(Layout, Trans, n, nrhs, dl, d, du, dlf, df, duf, du2, ipiv, b, ldb, x, ldx, fErr, bErr);
+    }
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgtrfs")]
+    public static extern int gtrfs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                                   double[] dl, double[] d, double[] du, double[] dlf, double[] df, double[] duf,
+                                   double[] du2, int[] ipiv, double[] b, int ldb, double[] x, int ldx,
+                                   double[] fErr, double[] bErr);
+    public static int gtrfs(LapackLayout Layout, LapackTranspose Trans, int n, int nrhs,
+                            double[] dl, double[] d, double[] du, double[] dlf, double[] df, double[] duf,
+                            double[] du2, int[] ipiv, double[] b, int ldb, double[] x, int ldx,
+                            out double[] fErr, out double[] bErr) {
+      fErr = new double[nrhs > 1 ? nrhs : 1];
+      bErr = new double[nrhs > 1 ? nrhs : 1];
+      return gtrfs(Layout, Trans, n, nrhs, dl, d, du, dlf, df, duf, du2, ipiv, b, ldb, x, ldx, fErr, bErr);
+    }
   }
 }
