@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static class Blas1 {
     private const string LibPath = "mkl_rt.dll";
   

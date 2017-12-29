@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpMKLStd;
+using SharpMKL;
 
 namespace SharpMKLStdTest {
   [TestClass]

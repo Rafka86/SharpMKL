@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using SharpMKLStd;
+﻿using System.Diagnostics;
+using SharpMKL;
+using static SharpMKL.Blas1;
+using static SharpMKL.Lapack;
 using static System.Console;
 
 namespace PerformanceTest {
@@ -89,7 +89,7 @@ namespace PerformanceTest {
         sw.Reset();
         for (var i = 0; i < LoopDot; i++) {
           sw.Start();
-          res = Blas1.dot(size, x, 1, y, 1);
+          res = dot(size, x, 1, y, 1);
           sw.Stop();
         }
         WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) LoopDot}\n");
@@ -143,26 +143,26 @@ namespace PerformanceTest {
         sw.Reset();
         var res = new double[bBase.Length];
         for (var i = 0; i < LoopLU; i++) {
-          Blas1.copy(aBase.Length, aBase, 1, out var a, 1);
-          Blas1.copy(bBase.Length, bBase, 1, out var b, 1);
+          copy(aBase.Length, aBase, 1, out var a, 1);
+          copy(bBase.Length, bBase, 1, out var b, 1);
           sw.Start();
           Decomp(N, N, a, ipiv);
           Solve(N, N, a, b, ipiv);
           sw.Stop();
-          if (i == LoopLU - 1) Blas1.copy(b.Length, b, 1, res, 1);
+          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
         }
         WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
         
         WriteLine("Calc Poisson eq by LAPACK calls for general matrix.");
         sw.Reset();
         for (var i = 0; i < LoopLU; i++) {
-          Blas1.copy(aBase.Length, aBase, 1, out var a, 1);
-          Blas1.copy(bBase.Length, bBase, 1, out var b, 1);
+          copy(aBase.Length, aBase, 1, out var a, 1);
+          copy(bBase.Length, bBase, 1, out var b, 1);
           sw.Start();
-          Lapack.getrf(LapackLayout.RowMajor, N, N, a, N, ipiv);
-          Lapack.getrs(LapackLayout.RowMajor, LapackTranspose.NoTrans, N, 1, a, N, ipiv, b, 1);
+          getrf(LapackLayout.RowMajor, N, N, a, N, ipiv);
+          getrs(LapackLayout.RowMajor, LapackTranspose.NoTrans, N, 1, a, N, ipiv, b, 1);
           sw.Stop();
-          if (i == LoopLU - 1) Blas1.copy(b.Length, b, 1, res, 1);
+          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
         }
         WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
 
@@ -197,13 +197,13 @@ namespace PerformanceTest {
         WriteLine("Calc Poisson eq by LAPACK calls for band matrix.");
         sw.Reset();
         for (var i = 0; i < LoopLU; i++) {
-          Blas1.copy(abBase.Length, abBase, 1, out var ab, 1);
-          Blas1.copy(bBase.Length, bBase, 1, out var b, 1);
+          copy(abBase.Length, abBase, 1, out var ab, 1);
+          copy(bBase.Length, bBase, 1, out var b, 1);
           sw.Start();
-          Lapack.gbtrf(LapackLayout.ColumnMajor, N, N, bl, bu, ab, ldab, ipiv);
-          Lapack.gbtrs(LapackLayout.ColumnMajor, LapackTranspose.NoTrans, N, bl, bu, 1, ab, ldab, ipiv, b, N);
+          gbtrf(LapackLayout.ColumnMajor, N, N, bl, bu, ab, ldab, ipiv);
+          gbtrs(LapackLayout.ColumnMajor, LapackTranspose.NoTrans, N, bl, bu, 1, ab, ldab, ipiv, b, N);
           sw.Stop();
-          if (i == LoopLU - 1) Blas1.copy(b.Length, b, 1, res, 1);
+          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
         }
         WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
         
@@ -225,16 +225,16 @@ namespace PerformanceTest {
             bBase[k] = Heat;
           }
         }
-        WriteLine("Calc Poisson eq by LAPACK calls for packed band matrix.");
+        WriteLine("Calc Poisson eq by LAPACK calls for positive difinite band matrix.");
         sw.Reset();
         for (var i = 0; i < LoopLU; i++) {
-          Blas1.copy(apbBase.Length, apbBase, 1, out var apb, 1);
-          Blas1.copy(bBase.Length, bBase, 1, out var b, 1);
+          copy(apbBase.Length, apbBase, 1, out var apb, 1);
+          copy(bBase.Length, bBase, 1, out var b, 1);
           sw.Start();
-          Lapack.pbtrf(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, apb, ldapb);
-          Lapack.pbtrs(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, 1, apb, ldapb, b, N);
+          pbtrf(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, apb, ldapb);
+          pbtrs(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, 1, apb, ldapb, b, N);
           sw.Stop();
-          if (i == LoopLU - 1) Blas1.copy(b.Length, b, 1, res, 1);
+          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
         }
         WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
       }

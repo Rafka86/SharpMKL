@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using static System.Math;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static partial class Lapack {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgbtrf")]
     public static extern int gbtrf(LapackLayout Layout, int m, int n, int kl, int ku,

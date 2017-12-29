@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static partial class Lapack {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spbtrf")]
     public static extern int pbtrf(LapackLayout Layout, LapackUpLo UpLo, int n, int kd, float[] ab, int ldab);

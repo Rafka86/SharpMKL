@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using static System.Math;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static partial class Lapack {
     private const string LibPath = "mkl_rt.dll";
 

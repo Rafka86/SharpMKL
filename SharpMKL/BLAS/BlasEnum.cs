@@ -1,4 +1,4 @@
-﻿namespace SharpMKLStd {
+﻿namespace SharpMKL {
   public enum BlasLayout {
     RowMajor = 101,
     ColumnMajor = 102

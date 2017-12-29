@@ -1,4 +1,4 @@
-﻿namespace SharpMKLStd {
+﻿namespace SharpMKL {
   public enum LapackLayout {
     RowMajor = 101,
     ColumnMajor = 102

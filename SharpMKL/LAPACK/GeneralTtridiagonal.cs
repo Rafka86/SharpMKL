@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static partial class Lapack {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgttrf")]
     public static extern int gttrf(int n, float[] dl, float[] d, float[] du, float[] du2, int[] ipiv);

@@ -3,7 +3,7 @@
 using System.Data;
 using System.Runtime.InteropServices;
 
-namespace SharpMKLStd {
+namespace SharpMKL {
   public static partial class Lapack {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spptrf")]
     public static extern int pptrf(LapackLayout Layout, LapackUpLo UpLo, int n, float[] ap);
