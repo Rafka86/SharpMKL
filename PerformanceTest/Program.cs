@@ -6,9 +6,6 @@ using static System.Console;
 
 namespace PerformanceTest {
   internal static class Program {
-    private const int LoopDot = 10000;
-    private const int LoopLU = 5;
-    
     private static void Swap(ref double n1, ref double n2) {
       double tmp;
       tmp = n1;
@@ -70,29 +67,31 @@ namespace PerformanceTest {
       CompareTimeDot(100);
       CompareTimeDot(100000);
 
-      CompareTimeLU();
+      CompareTimeLu();
       
       void CompareTimeDot(int size) {
+        const int loopDot = 10000;
         var sw = new Stopwatch();
+        
         (var x, var y) = GenerateVector();
         WriteLine($"Calc dot product by raw C# : size = {size}");
         sw.Reset();
         var res = 0.0;
-        for (var i = 0; i < LoopDot; i++) {
+        for (var i = 0; i < loopDot; i++) {
           sw.Start();
           res = Dot(x, y);
           sw.Stop();
         }
-        WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) LoopDot}");
+        WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) loopDot}");
         
         WriteLine($"Calc dot product by BLAS : size = {size}");
         sw.Reset();
-        for (var i = 0; i < LoopDot; i++) {
+        for (var i = 0; i < loopDot; i++) {
           sw.Start();
           res = dot(size, x, 1, y, 1);
           sw.Stop();
         }
-        WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) LoopDot}\n");
+        WriteLine($"Result : {res}\tTime : {sw.Elapsed / (double) loopDot}\n");
         
         (double[] x, double[] y) GenerateVector() {
           x = new double[size];
@@ -105,36 +104,37 @@ namespace PerformanceTest {
         }
       }
       
-      void CompareTimeLU() {
-        const int M = 49;
-        const int N = M * M;
-        const double h = 1.0 / (M + 1);
-        const double Heat = 4.0;
-        var aBase = new double[N * N];
-        var bBase = new double[N];
-        var ipiv = new int[N];
-        int generalIndex(int i, int j) => i * N + j;
-        for (var i = 1; i <= M; i++) {
-          for (var j = 1; j <= M; j++) {
-            var k = (i - 1) * M + j - 1;
-            aBase[generalIndex(k, k)] = 4.0 / (h * h);
+      void CompareTimeLu() {
+        const int loopLu = 100;
+        const int m = 49;
+        const int n = m * m;
+        const double h = 1.0 / (m + 1);
+        const double heat = 4.0;
+        var aBase = new double[n * n];
+        var bBase = new double[n];
+        var ipiv = new int[n];
+        int GeneralIndex(int i, int j) => i * n + j;
+        for (var i = 1; i <= m; i++) {
+          for (var j = 1; j <= m; j++) {
+            var k = (i - 1) * m + j - 1;
+            aBase[GeneralIndex(k, k)] = 4.0 / (h * h);
             if (i > 1) {
-              var kDown = k - M;
-              aBase[generalIndex(k, kDown)] = -1.0 / (h * h);
+              var kDown = k - m;
+              aBase[GeneralIndex(k, kDown)] = -1.0 / (h * h);
             }
-            if (i < M) {
-              var kUp = k + M;
-              aBase[generalIndex(k, kUp)] = -1.0 / (h * h);
+            if (i < m) {
+              var kUp = k + m;
+              aBase[GeneralIndex(k, kUp)] = -1.0 / (h * h);
             }
             if (j > 1) {
               var kLeft = k - 1;
-              aBase[generalIndex(k, kLeft)] = -1.0 / (h * h);
+              aBase[GeneralIndex(k, kLeft)] = -1.0 / (h * h);
             }
-            if (j < M) {
+            if (j < m) {
               var kRight = k + 1;
-              aBase[generalIndex(k, kRight)] = -1.0 / (h * h);
+              aBase[GeneralIndex(k, kRight)] = -1.0 / (h * h);
             }
-            bBase[k] = Heat;
+            bBase[k] = heat;
           }
         }
         
@@ -142,101 +142,109 @@ namespace PerformanceTest {
         WriteLine("Calc Poisson eq by raw C#.");
         sw.Reset();
         var res = new double[bBase.Length];
-        for (var i = 0; i < LoopLU; i++) {
-          copy(aBase.Length, aBase, 1, out var a, 1);
-          copy(bBase.Length, bBase, 1, out var b, 1);
+        for (var i = 0; i < loopLu; i++) {
+          var a = new double[aBase.Length];
+          var b = new double[bBase.Length];
+          copy(aBase.Length, aBase, 1, a, 1);
+          copy(bBase.Length, bBase, 1, b, 1);
           sw.Start();
-          Decomp(N, N, a, ipiv);
-          Solve(N, N, a, b, ipiv);
+          Decomp(n, n, a, ipiv);
+          Solve(n, n, a, b, ipiv);
           sw.Stop();
-          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
+          if (i == loopLu - 1) copy(b.Length, b, 1, res, 1);
         }
-        WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
+        WriteLine($"Result : {res[((m + 1) / 2 - 1) * m + m + 1]}\tTime : {sw.Elapsed / (double) loopLu}");
         
         WriteLine("Calc Poisson eq by LAPACK calls for general matrix.");
         sw.Reset();
-        for (var i = 0; i < LoopLU; i++) {
-          copy(aBase.Length, aBase, 1, out var a, 1);
-          copy(bBase.Length, bBase, 1, out var b, 1);
+        for (var i = 0; i < loopLu; i++) {
+          var a = new double[aBase.Length];
+          var b = new double[bBase.Length];
+          copy(aBase.Length, aBase, 1, a, 1);
+          copy(bBase.Length, bBase, 1, b, 1);
           sw.Start();
-          getrf(LapackLayout.RowMajor, N, N, a, N, ipiv);
-          getrs(LapackLayout.RowMajor, LapackTranspose.NoTrans, N, 1, a, N, ipiv, b, 1);
+          getrf(LapackLayout.RowMajor, n, n, a, n, ipiv);
+          getrs(LapackLayout.RowMajor, LapackTranspose.NoTrans, n, 1, a, n, ipiv, b, 1);
           sw.Stop();
-          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
+          if (i == loopLu - 1) copy(b.Length, b, 1, res, 1);
         }
-        WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
+        WriteLine($"Result : {res[((m + 1) / 2 - 1) * m + m + 1]}\tTime : {sw.Elapsed / (double) loopLu}");
 
-        const int bu = M;
-        const int bl = M;
+        const int bu = m;
+        const int bl = m;
         const int ldab = 2 * bl + bu + 1;
-        int bandIndex(int i, int j) => j * ldab + bl + bu + (i - j);
-        var abBase = new double[ldab * N];
-        for (var i = 1; i <= M; i++) {
-          for (var j = 1; j <= M; j++) {
-            var k = (i - 1) * M + j - 1;
-            abBase[bandIndex(k, k)] = 4.0 / (h * h);
+        int BandIndex(int i, int j) => j * ldab + bl + bu + (i - j);
+        var abBase = new double[ldab * n];
+        for (var i = 1; i <= m; i++) {
+          for (var j = 1; j <= m; j++) {
+            var k = (i - 1) * m + j - 1;
+            abBase[BandIndex(k, k)] = 4.0 / (h * h);
             if (i > 1) {
-              var kDown = k - M;
-              abBase[bandIndex(k, kDown)] = -1.0 / (h * h);
+              var kDown = k - m;
+              abBase[BandIndex(k, kDown)] = -1.0 / (h * h);
             }
-            if (i < M) {
-              var kUp = k + M;
-              abBase[bandIndex(k, kUp)] = -1.0 / (h * h);
+            if (i < m) {
+              var kUp = k + m;
+              abBase[BandIndex(k, kUp)] = -1.0 / (h * h);
             }
             if (j > 1) {
               var kLeft = k - 1;
-              abBase[bandIndex(k, kLeft)] = -1.0 / (h * h);
+              abBase[BandIndex(k, kLeft)] = -1.0 / (h * h);
             }
-            if (j < M) {
+            if (j < m) {
               var kRight = k + 1;
-              abBase[bandIndex(k, kRight)] = -1.0 / (h * h);
+              abBase[BandIndex(k, kRight)] = -1.0 / (h * h);
             }
-            bBase[k] = Heat;
+            bBase[k] = heat;
           }
         }
         WriteLine("Calc Poisson eq by LAPACK calls for band matrix.");
         sw.Reset();
-        for (var i = 0; i < LoopLU; i++) {
-          copy(abBase.Length, abBase, 1, out var ab, 1);
-          copy(bBase.Length, bBase, 1, out var b, 1);
+        for (var i = 0; i < loopLu; i++) {
+          var ab = new double[abBase.Length];
+          var b = new double[bBase.Length];
+          copy(abBase.Length, abBase, 1, ab, 1);
+          copy(bBase.Length, bBase, 1, b, 1);
           sw.Start();
-          gbtrf(LapackLayout.ColumnMajor, N, N, bl, bu, ab, ldab, ipiv);
-          gbtrs(LapackLayout.ColumnMajor, LapackTranspose.NoTrans, N, bl, bu, 1, ab, ldab, ipiv, b, N);
+          gbtrf(LapackLayout.ColumnMajor, n, n, bl, bu, ab, ldab, ipiv);
+          gbtrs(LapackLayout.ColumnMajor, LapackTranspose.NoTrans, n, bl, bu, 1, ab, ldab, ipiv, b, n);
           sw.Stop();
-          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
+          if (i == loopLu - 1) copy(b.Length, b, 1, res, 1);
         }
-        WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
+        WriteLine($"Result : {res[((m + 1) / 2 - 1) * m + m + 1]}\tTime : {sw.Elapsed / (double) loopLu}");
         
         const int ldapb = bl + 1;
-        int packedIndex(int i, int j) => j * ldapb + i - j;
-        var apbBase = new double[ldapb * N];
-        for (var i = 1; i <= M; i++) {
-          for (var j = 1; j <= M; j++) {
-            var k = (i - 1) * M + j - 1;
-            apbBase[packedIndex(k, k)] = 4.0 / (h * h);
+        int PackedIndex(int i, int j) => j * ldapb + i - j;
+        var apbBase = new double[ldapb * n];
+        for (var i = 1; i <= m; i++) {
+          for (var j = 1; j <= m; j++) {
+            var k = (i - 1) * m + j - 1;
+            apbBase[PackedIndex(k, k)] = 4.0 / (h * h);
             if (i > 1) {
-              var kDown = k - M;
-              apbBase[packedIndex(k, kDown)] = -1.0 / (h * h);
+              var kDown = k - m;
+              apbBase[PackedIndex(k, kDown)] = -1.0 / (h * h);
             }
             if (j > 1) {
               var kLeft = k - 1;
-              apbBase[packedIndex(k, kLeft)] = -1.0 / (h * h);
+              apbBase[PackedIndex(k, kLeft)] = -1.0 / (h * h);
             }
-            bBase[k] = Heat;
+            bBase[k] = heat;
           }
         }
         WriteLine("Calc Poisson eq by LAPACK calls for positive difinite band matrix.");
         sw.Reset();
-        for (var i = 0; i < LoopLU; i++) {
-          copy(apbBase.Length, apbBase, 1, out var apb, 1);
-          copy(bBase.Length, bBase, 1, out var b, 1);
+        for (var i = 0; i < loopLu; i++) {
+          var apb = new double[apbBase.Length];
+          var b = new double[bBase.Length];
+          copy(apbBase.Length, apbBase, 1, apb, 1);
+          copy(bBase.Length, bBase, 1, b, 1);
           sw.Start();
-          pbtrf(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, apb, ldapb);
-          pbtrs(LapackLayout.ColumnMajor, LapackUpLo.Lower, N, bl, 1, apb, ldapb, b, N);
+          pbtrf(LapackLayout.ColumnMajor, LapackUpLo.Lower, n, bl, apb, ldapb);
+          pbtrs(LapackLayout.ColumnMajor, LapackUpLo.Lower, n, bl, 1, apb, ldapb, b, n);
           sw.Stop();
-          if (i == LoopLU - 1) copy(b.Length, b, 1, res, 1);
+          if (i == loopLu - 1) copy(b.Length, b, 1, res, 1);
         }
-        WriteLine($"Result : {res[((M + 1) / 2 - 1) * M + M + 1]}\tTime : {sw.Elapsed / (double) LoopLU}");
+        WriteLine($"Result : {res[((m + 1) / 2 - 1) * m + m + 1]}\tTime : {sw.Elapsed / (double) loopLu}");
       }
     }
   }
