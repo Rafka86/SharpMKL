@@ -1,4 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
+
 using SharpMKL;
 using static SharpMKL.Blas1;
 using static SharpMKL.Lapack;
@@ -63,11 +67,39 @@ namespace PerformanceTest {
     }
     
     private static void Main() {
-      CompareTimeDot(10);
-      CompareTimeDot(100);
-      CompareTimeDot(100000);
+      CompareTimeCopy(100000000);
+      //CompareTimeDot(10);
+      //CompareTimeDot(100);
+      //CompareTimeDot(100000);
 
-      CompareTimeLu();
+      //CompareTimeLu();
+
+      void CompareTimeCopy(int size) {
+        var dg = new DataGenerator();
+        var src = dg.DoubleArray(size: size);
+        var sw = new Stopwatch();
+        
+        {
+          WriteLine($"Copy complex array[{size}] by Parallel.For.");
+          sw.Reset();
+          var dst = new double[size];
+          sw.Start();
+          var tsk = Parallel.For(0, dst.Length, i => dst[i] = src[i]);
+          while (!tsk.IsCompleted) { }
+          sw.Stop();
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+        
+        {
+          WriteLine($"Copy complex array[{size}] by BLAS.");
+          sw.Reset();
+          var dst = new double[size];
+          sw.Start();
+          copy(src.Length, src, 1, dst, 1);
+          sw.Stop();
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+      }
       
       void CompareTimeDot(int size) {
         const int loopDot = 10000;
