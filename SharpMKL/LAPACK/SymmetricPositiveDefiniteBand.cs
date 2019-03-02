@@ -25,5 +25,14 @@ namespace SharpMKL {
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpbcon")]
     public static extern int pbcon(LapackLayout layout, LapackUpLo upLo, int n, int kd, double[] ab, int ldab,
                                    double aNorm, out double aCond);
+    
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_spbrfs")]
+    public static extern int pbrfs(LapackLayout layout, LapackUpLo upLo, int n, int kd, int nrhs,
+                                   float[] ab, int ldab, float[] afb, int ldafb, float[] b, int ldb,
+                                   float[] x, int ldx, float[] fErr, float[] bErr);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dpbrfs")]
+    public static extern int pbrfs(LapackLayout layout, LapackUpLo upLo, int n, int kd, int nrhs,
+                                   double[] ab, int ldab, double[] afb, int ldafb, double[] b, int ldb,
+                                   double[] x, int ldx, double[] fErr, double[] bErr);
   }
 }
