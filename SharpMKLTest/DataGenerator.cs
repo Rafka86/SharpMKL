@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 
+using SharpMKL;
+
 namespace SharpMKLStdTest {
 
   class DataGenerator {
@@ -41,6 +43,9 @@ namespace SharpMKLStdTest {
     internal double RandDouble(double min = 0.0, double max = 1.0)
       => (double) (Rand % 0xffff) / 0xffff * (max - min) + min;
 
+    internal ComplexF RandComplexF(float min = 0.0f, float max = 1.0f)
+      => new ComplexF(RandFloat(min, max), RandFloat(min, max));
+
     internal Complex RandComplex(double min = 0.0, double max = 1.0)
       => new Complex(RandDouble(min, max), RandDouble(min, max));
 
@@ -58,14 +63,21 @@ namespace SharpMKLStdTest {
       return res;
     }
 
-    internal double[] DoubleArray(double min = 0.0f, double max = 1.0f, int size = 1) {
+    internal double[] DoubleArray(double min = 0.0, double max = 1.0, int size = 1) {
       var res = new double[size];
       for (var i = 0; i < res.Length; i++)
         res[i] = RandDouble(min, max);
       return res;
     }
 
-    internal Complex[] ComplexArray(double min = 0.0f, double max = 1.0f, int size = 1) {
+    internal ComplexF[] ComplexFArray(float min = 0.0f, float max = 1.0f, int size = 1) {
+      var res = new ComplexF[size];
+      for (var i = 0; i < res.Length; i++)
+        res[i] = RandComplexF(min, max);
+      return res;
+    }
+
+    internal Complex[] ComplexArray(double min = 0.0, double max = 1.0, int size = 1) {
       var res = new Complex[size];
       for (var i = 0; i < res.Length; i++)
         res[i] = RandComplex(min, max);

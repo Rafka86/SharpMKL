@@ -67,6 +67,7 @@ namespace PerformanceTest {
     }
     
     private static void Main() {
+      //CompareTimeCopy(10);
       CompareTimeCopy(100000000);
       //CompareTimeDot(10);
       //CompareTimeDot(100);
@@ -76,28 +77,30 @@ namespace PerformanceTest {
 
       void CompareTimeCopy(int size) {
         var dg = new DataGenerator();
-        var src = dg.DoubleArray(size: size);
+        var src = dg.ComplexFArray(size: size);
         var sw = new Stopwatch();
         
         {
           WriteLine($"Copy complex array[{size}] by Parallel.For.");
           sw.Reset();
-          var dst = new double[size];
+          var dst = new ComplexF[size];
           sw.Start();
           var tsk = Parallel.For(0, dst.Length, i => dst[i] = src[i]);
           while (!tsk.IsCompleted) { }
           sw.Stop();
-          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => (Complex) x.s == (Complex) x.d)}\tTime : {sw.Elapsed}");
         }
         
         {
           WriteLine($"Copy complex array[{size}] by BLAS.");
           sw.Reset();
-          var dst = new double[size];
+          var dst = new ComplexF[size];
           sw.Start();
           copy(src.Length, src, 1, dst, 1);
           sw.Stop();
-          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+          //for (var i = 0; i < src.Length; i++)
+          //  WriteLine($"{src[i]} {dst[i]}");
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => (Complex) x.s == (Complex) x.d)}\tTime : {sw.Elapsed}");
         }
       }
       

@@ -9,6 +9,8 @@ namespace SharpMKL {
     public static extern float asum(int n, float[] x, int incX);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dasum")]
     public static extern double asum(int n, double[] x, int incX);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_scasum")]
+    public static extern float asum(int n, ComplexF[] x, int incX);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dzasum")]
     public static extern double asum(int n, Complex[] x, int incX);
   
@@ -23,12 +25,16 @@ namespace SharpMKL {
     public static extern void copy(int n, float[] x, int incX, float[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dcopy")]
     public static extern void copy(int n, double[] x, int incX, double[] y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ccopy")]
+    public static extern void copy(int n, ComplexF[] x, int incX, [In, Out] ComplexF[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_zcopy")]
-    public static extern void copy(int n, Complex[] x, int incX, [Out] Complex[] y, int incY);
+    public static extern void copy(int n, Complex[] x, int incX, [In, Out] Complex[] y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_scopy")]
     public static extern void copy(int n, in float x, int incX, out float y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_dcopy")]
     public static extern void copy(int n, in double x, int incX, out double y, int incY);
+    [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_ccopy")]
+    public static extern void copy(int n, in ComplexF x, int incX, out ComplexF y, int incY);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "cblas_zcopy")]
     public static extern void copy(int n, in Complex x, int incX, out Complex y, int incY);
   

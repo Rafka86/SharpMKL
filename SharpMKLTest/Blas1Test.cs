@@ -29,6 +29,12 @@ namespace SharpMKLStdTest {
       }
 
       for (var i = 0; i < nPat; i++) {
+        var x = dg.ComplexFArray(size: size);
+        var expz = x.Select(c => MathF.Abs(c.Real) + MathF.Abs(c.Imaginary)).Sum();
+        Assert.AreEqual(expz, Blas1.asum(x.Length, x, 1), TorF);
+      }
+
+      for (var i = 0; i < nPat; i++) {
         var x = dg.ComplexArray(size: size);
         var expz = x.Select(c => Abs(c.Real) + Abs(c.Imaginary)).Sum();
         Assert.AreEqual(expz, Blas1.asum(x.Length, x, 1), TorD);
