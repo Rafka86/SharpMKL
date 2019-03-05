@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 using SharpMKL;
@@ -65,41 +67,146 @@ namespace PerformanceTest {
         b[i] = (b[i] - sum) / a[i * n + i];
       }
     }
+
+    public static T DeepCopy<T>(this T src) {
+      using (var memoryStream = new MemoryStream()) {
+        var binForm = new BinaryFormatter();
+        binForm.Serialize(memoryStream, src);
+        memoryStream.Seek(0, SeekOrigin.Begin);
+        return (T) binForm.Deserialize(memoryStream);
+      }
+    }
     
     private static void Main() {
-      //CompareTimeCopy(10);
-      CompareTimeCopy(100000000);
+      CompareTimeRowCopy((4, 4), 3);
+      CompareTimeColumnCopy((4, 4), 3);
+      //CompareTimeCopy(10000);
+      //CompareTimeCopy(100000000);
       //CompareTimeDot(10);
       //CompareTimeDot(100);
       //CompareTimeDot(100000);
 
       //CompareTimeLu();
 
+      void CompareTimeRowCopy((int row, int col) shape, int index) {
+        var dg  = new DataGenerator();
+        var src = dg.DoubleArray(size: shape.row * shape.col);
+        var sw  = new Stopwatch();
+
+        {
+          WriteLine($"Copy partially array[{src.Length}] by BLAS.");
+          var dst = new double[shape.col];
+          sw.Reset();
+          copy(dst.Length, in src[index * shape.col], 1, out dst[0], 1);
+          sw.Start();
+          sw.Stop();
+
+          for (var i = 0; i < shape.row; i++)
+            for (var j = 0; j < shape.col; j++)
+              Write($"{src[i * shape.col + j]}{(j == shape.col - 1 ? '\n' : ' ')}");
+          foreach (var x in dst)
+            WriteLine(x);
+
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+
+        {
+          WriteLine($"Copy partially array[{src.Length}] by Parallel.");
+          var dst = new double[shape.row];
+          sw.Reset();
+          sw.Start();
+          var tsk = Parallel.For(0, dst.Length, i => dst[i] = src[index * shape.col + i]);
+          while (!tsk.IsCompleted) { }
+          sw.Stop();
+
+          for (var i = 0; i < shape.row; i++)
+            for (var j = 0; j < shape.col; j++)
+              Write($"{src[i * shape.col + j]}{(j == shape.col - 1 ? '\n' : ' ')}");
+          foreach (var x in dst)
+            WriteLine(x);
+
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+      }
+
+      void CompareTimeColumnCopy((int row, int col) shape, int index) {
+        var dg = new DataGenerator();
+        var src = dg.DoubleArray(size: shape.row * shape.col);
+        var sw = new Stopwatch();
+        
+        {
+          WriteLine($"Copy partially array[{src.Length}] by BLAS.");
+          var dst = new double[shape.row];
+          sw.Reset();
+          copy(dst.Length, in src[index], shape.col, out dst[0], 1);
+          sw.Start();
+          sw.Stop();
+          
+          for (var i = 0; i < shape.row; i++)
+            for (var j = 0; j < shape.col; j++)
+              Write($"{src[i * shape.col + j]}{(j == shape.col - 1 ? '\n' : ' ')}");
+          foreach (var x in dst)
+            WriteLine(x);
+
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+
+        {
+          WriteLine($"Copy partially array[{src.Length}] by Parallel.");
+          var dst = new double[shape.row];
+          sw.Reset();
+          sw.Start();
+          var tsk = Parallel.For(0, dst.Length, i => dst[i] = src[i * shape.col + index]);
+          while (!tsk.IsCompleted) { }
+          sw.Stop();
+          
+          for (var i = 0; i < shape.row; i++)
+            for (var j = 0; j < shape.col; j++)
+              Write($"{src[i * shape.col + j]}{(j == shape.col - 1 ? '\n' : ' ')}");
+          foreach (var x in dst)
+            WriteLine(x);
+
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => x.s == x.d)}\tTime : {sw.Elapsed}");
+        }
+      }
+      
       void CompareTimeCopy(int size) {
         var dg = new DataGenerator();
-        var src = dg.ComplexFArray(size: size);
+        var src = dg.ComplexArray(size: size);
         var sw = new Stopwatch();
+        
+        {
+          WriteLine($"Copy complex array[{size}] by Memory Stream.");
+          sw.Reset();
+          sw.Start();
+          var dst = src.DeepCopy();
+          sw.Stop();
+          dst[1] = new Complex(1.0, 0.0);
+          WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => (Complex) x.s == (Complex) x.d)}\tTime : {sw.Elapsed}");
+        }
         
         {
           WriteLine($"Copy complex array[{size}] by Parallel.For.");
           sw.Reset();
-          var dst = new ComplexF[size];
+          var dst = new Complex[size];
           sw.Start();
           var tsk = Parallel.For(0, dst.Length, i => dst[i] = src[i]);
           while (!tsk.IsCompleted) { }
           sw.Stop();
+          dst[1] = new Complex(1.0, 0.0);
           WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => (Complex) x.s == (Complex) x.d)}\tTime : {sw.Elapsed}");
         }
         
         {
           WriteLine($"Copy complex array[{size}] by BLAS.");
           sw.Reset();
-          var dst = new ComplexF[size];
+          var dst = new Complex[size];
           sw.Start();
           copy(src.Length, src, 1, dst, 1);
           sw.Stop();
           //for (var i = 0; i < src.Length; i++)
           //  WriteLine($"{src[i]} {dst[i]}");
+          dst[1] = new Complex(1.0, 0.0);
           WriteLine($"Result : {src.Zip(dst, (s, d) => (s, d)).All(x => (Complex) x.s == (Complex) x.d)}\tTime : {sw.Elapsed}");
         }
       }
