@@ -97,8 +97,8 @@ namespace PerformanceTest {
           WriteLine($"Copy partially array[{src.Length}] by BLAS.");
           var dst = new double[shape.col];
           sw.Reset();
-          copy(dst.Length, in src[index * shape.col], 1, out dst[0], 1);
           sw.Start();
+          copy(dst.Length, in src[index * shape.col], 1, out dst[0], 1);
           sw.Stop();
 
           for (var i = 0; i < shape.row; i++)
@@ -138,8 +138,8 @@ namespace PerformanceTest {
           WriteLine($"Copy partially array[{src.Length}] by BLAS.");
           var dst = new double[shape.row];
           sw.Reset();
-          copy(dst.Length, in src[index], shape.col, out dst[0], 1);
           sw.Start();
+          copy(dst.Length, in src[index], shape.col, out dst[0], 1);
           sw.Stop();
           
           for (var i = 0; i < shape.row; i++)

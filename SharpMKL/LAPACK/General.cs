@@ -165,8 +165,8 @@ namespace SharpMKL {
     }
 
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_sgetri")]
-    public static extern int getri(LapackLayout layout, int n, float[] a, int lda);
+    public static extern int getri(LapackLayout layout, int n, float[] a, int lda, int[] ipiv);
     [DllImport(LibPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LAPACKE_dgetri")]
-    public static extern int getri(LapackLayout layout, int n, double[] a, int lda);
+    public static extern int getri(LapackLayout layout, int n, double[] a, int lda, int[] ipiv);
   }
 }
